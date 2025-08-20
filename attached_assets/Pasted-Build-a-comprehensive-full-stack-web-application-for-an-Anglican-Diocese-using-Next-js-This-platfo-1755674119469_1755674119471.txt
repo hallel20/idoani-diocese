@@ -1,0 +1,33 @@
+Build a comprehensive, full-stack web application for an Anglican Diocese using Next.js. This platform will serve as a dynamic public website and a robust, admin-accessible CMS.
+
+---
+
+### **Frontend Features**
+
+-   **Landing Page:** A professional landing page featuring a welcome message, the Diocese's vision/mission, historical highlights, and the Bishop's message.
+-   **Diocesan Directory:** A public-facing directory for Priests, Parishes, and Archdeaconries.
+    -   Parish pages will include contact details, service times, and a Google Maps embed for the location.
+    -   The directory must be searchable and filterable by name, location, or Archdeaconry.
+-   **Events Module:** A dedicated section for displaying upcoming events and special announcements with a clear, chronological layout.
+-   **Contact Form:** A simple contact form for visitor inquiries, which will send submissions to a designated diocesan email address.
+-   **Mobile-First Design:** Ensure the entire site is responsive and optimized for mobile devices.
+-   **Color Scheme:** The design will primarily use an Anglican purple color palette.
+-   **SEO:** All public pages must be server-side rendered for optimal search engine performance.
+
+---
+
+### **CMS & Backend**
+
+-   **Admin Dashboard:** Implement a secure, password-protected dashboard for managing all site content.
+-   **Priest Management:** A section to add, edit, or delete priests, including their name, phone number, image, and bio. Priests must be linkable to a specific parish.
+-   **Parish Management:** A section for managing parishes, with fields for name, address, contact details, service times, and a Google Maps URL or coordinates. Parishes must be linkable to a specific Archdeaconry.
+-   **Archdeaconry Management:** A section for managing Archdeaconries, including their name, a description, and 2-3 image uploads.
+-   **Events Management:** A new module for creating, updating, and deleting events and announcements, with fields for event title, date, time, location, and description.
+
+---
+
+### **Technical Stack**
+
+-   **Framework:** Next.js for server-side rendering.
+-   **Database:** Turso, utilizing `@libsql/client/web` for data persistence.
+-   **Design:** Custom styling with Anglican purple as the primary color.

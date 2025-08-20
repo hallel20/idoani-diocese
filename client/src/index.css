@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(210 25% 7.8431%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(210 25% 7.8431%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(210 25% 7.8431%);
+  --primary: hsl(270 50% 40%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(210 40% 96%);
+  --secondary-foreground: hsl(210 25% 7.8431%);
+  --muted: hsl(210 40% 98%);
+  --muted-foreground: hsl(215.4 16.3% 46.9%);
+  --accent: hsl(270 20% 95%);
+  --accent-foreground: hsl(270 50% 40%);
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(214.3 31.8% 91.4%);
+  --input: hsl(214.3 31.8% 91.4%);
+  --ring: hsl(270 50% 40%);
+  --radius: 0.5rem;
+  
+  /* Anglican color palette */
+  --anglican-purple-50: hsl(270 100% 98%);
+  --anglican-purple-100: hsl(270 87% 95%);
+  --anglican-purple-500: hsl(270 50% 40%);
+  --anglican-purple-600: hsl(270 55% 35%);
+  --anglican-purple-700: hsl(270 60% 30%);
+  --anglican-purple-800: hsl(270 65% 25%);
+  --anglican-purple-900: hsl(270 70% 20%);
+  --anglican-gold: hsl(45 100% 51%);
+  
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Inter', sans-serif;
+}
+
+.dark {
+  --background: hsl(210 25% 7.8431%);
+  --foreground: hsl(0 0% 95%);
+  --card: hsl(210 25% 10%);
+  --card-foreground: hsl(0 0% 95%);
+  --popover: hsl(210 25% 10%);
+  --popover-foreground: hsl(0 0% 95%);
+  --primary: hsl(270 50% 50%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(210 25% 15%);
+  --secondary-foreground: hsl(0 0% 95%);
+  --muted: hsl(210 25% 15%);
+  --muted-foreground: hsl(215.4 16.3% 56.9%);
+  --accent: hsl(270 20% 15%);
+  --accent-foreground: hsl(270 50% 70%);
+  --destructive: hsl(0 62.8% 50.6%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(210 25% 20%);
+  --input: hsl(210 25% 20%);
+  --ring: hsl(270 50% 50%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+  }
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+}
+
+/* Anglican specific styles */
+.anglican-gradient {
+  background: linear-gradient(135deg, var(--anglican-purple-600), var(--anglican-purple-800));
+}
+
+.anglican-text-gradient {
+  background: linear-gradient(135deg, var(--anglican-purple-600), var(--anglican-purple-800));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-overlay {
+  background: linear-gradient(135deg, 
+    hsla(270, 50%, 40%, 0.9) 0%, 
+    hsla(270, 60%, 30%, 0.8) 50%,
+    hsla(270, 65%, 25%, 0.9) 100%);
+}

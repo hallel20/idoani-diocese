@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  username  String   @unique @db.VarChar(255)
+  password  String   @db.Text
+  email     String   @unique @db.VarChar(255)
+  role      String   @default("admin") @db.VarChar(50)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("users")
+}
+
+model Archdeaconry {
+  id          String   @id @default(uuid()) @db.VarChar(36)
+  name        String   @db.VarChar(255)
+  description String?  @db.Text
+  image1Url   String?  @map("image1_url") @db.Text
+  image2Url   String?  @map("image2_url") @db.Text
+  image3Url   String?  @map("image3_url") @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Relations
+  parishes Parish[]
+
+  @@map("archdeaconries")
+}
+
+model Parish {
+  id             String   @id @default(uuid()) @db.VarChar(36)
+  name           String   @db.VarChar(255)
+  address        String   @db.Text
+  phone          String?  @db.VarChar(20)
+  email          String?  @db.VarChar(255)
+  serviceTimes   String?  @map("service_times") @db.Text
+  mapUrl         String?  @map("map_url") @db.Text
+  latitude       String?  @db.VarChar(50)
+  longitude      String?  @db.VarChar(50)
+  archdeaconryId String?  @map("archdeaconry_id") @db.VarChar(36)
+  imageUrl       String?  @map("image_url") @db.Text
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  // Relations
+  archdeaconry Archdeaconry? @relation(fields: [archdeaconryId], references: [id])
+  priests      Priest[]
+
+  @@map("parishes")
+}
+
+model Priest {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  name      String   @db.VarChar(255)
+  phone     String?  @db.VarChar(20)
+  email     String?  @db.VarChar(255)
+  bio       String?  @db.Text
+  imageUrl  String?  @map("image_url") @db.Text
+  parishId  String?  @map("parish_id") @db.VarChar(36)
+  title     String   @default("Reverend") @db.VarChar(100)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  parish Parish? @relation(fields: [parishId], references: [id])
+
+  @@map("priests")
+}
+
+model Event {
+  id          String   @id @default(uuid()) @db.VarChar(36)
+  title       String   @db.VarChar(255)
+  description String?  @db.Text
+  date        DateTime
+  time        String?  @db.VarChar(20)
+  location    String?  @db.VarChar(255)
+  category    String   @default("general") @db.VarChar(100)
+  isFeatured  Boolean  @default(false) @map("is_featured")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("events")
+}
+
+model Contact {
+  id        String   @id @default(uuid()) @db.VarChar(36)
+  firstName String   @map("first_name") @db.VarChar(255)
+  lastName  String   @map("last_name") @db.VarChar(255)
+  email     String   @db.VarChar(255)
+  phone     String?  @db.VarChar(20)
+  subject   String   @db.VarChar(255)
+  message   String   @db.Text
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("contacts")
+}

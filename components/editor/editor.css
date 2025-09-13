@@ -1,0 +1,236 @@
+/* Google Docs Editor Styles */
+.google-docs-editor {
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+}
+
+.editor-container {
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  padding: 20px 0;
+}
+
+.editor-wrapper {
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  margin: 0 auto;
+  padding: 96px 96px 96px 96px; /* Google Docs-like margins */
+  min-height: 11in; /* Letter size height */
+  width: 8.5in; /* Letter size width */
+  position: relative;
+}
+
+/* Editor content styles */
+.ProseMirror {
+  outline: none;
+  font-size: 11pt;
+  line-height: 1.15;
+  color: #202124;
+  font-family: 'Arial', sans-serif;
+}
+
+.ProseMirror p {
+  margin: 0 0 6pt 0;
+}
+
+.ProseMirror h1 {
+  font-size: 20pt;
+  font-weight: 400;
+  margin: 20pt 0 6pt 0;
+  color: #202124;
+}
+
+.ProseMirror h2 {
+  font-size: 16pt;
+  font-weight: 400;
+  margin: 18pt 0 6pt 0;
+  color: #202124;
+}
+
+.ProseMirror h3 {
+  font-size: 14pt;
+  font-weight: 400;
+  margin: 16pt 0 4pt 0;
+  color: #202124;
+}
+
+.ProseMirror h4 {
+  font-size: 12pt;
+  font-weight: 400;
+  margin: 14pt 0 4pt 0;
+  color: #202124;
+}
+
+.ProseMirror h5 {
+  font-size: 11pt;
+  font-weight: 400;
+  margin: 12pt 0 4pt 0;
+  color: #202124;
+}
+
+.ProseMirror h6 {
+  font-size: 11pt;
+  font-weight: 400;
+  margin: 12pt 0 4pt 0;
+  color: #202124;
+}
+
+.ProseMirror ul, .ProseMirror ol {
+  margin: 0 0 6pt 0;
+  padding-left: 18pt;
+}
+
+.ProseMirror li {
+  margin: 0 0 6pt 0;
+}
+
+.ProseMirror blockquote {
+  border-left: 3px solid #4285f4;
+  margin: 16pt 0;
+  padding-left: 16pt;
+  color: #5f6368;
+  font-style: italic;
+}
+
+.ProseMirror table {
+  border-collapse: collapse;
+  margin: 16pt 0;
+  width: 100%;
+}
+
+.ProseMirror td, .ProseMirror th {
+  border: 1px solid #dadce0;
+  padding: 8pt;
+  vertical-align: top;
+}
+
+.ProseMirror th {
+  background-color: #f8f9fa;
+  font-weight: 500;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 16pt auto;
+}
+
+.ProseMirror hr {
+  border: none;
+  border-top: 1px solid #dadce0;
+  margin: 16pt 0;
+}
+
+.ProseMirror a {
+  color: #1a73e8;
+  text-decoration: underline;
+}
+
+.ProseMirror a:hover {
+  text-decoration: underline;
+}
+
+/* Focus styles */
+.ProseMirror.has-focus {
+  outline: none;
+}
+
+/* Placeholder styles */
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
+
+/* Selection styles */
+.ProseMirror ::selection {
+  background: #c2e7ff;
+}
+
+/* Task list styles */
+.ProseMirror ul[data-type="taskList"] {
+  list-style: none;
+  padding: 0;
+}
+
+.ProseMirror ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+}
+
+.ProseMirror ul[data-type="taskList"] li > label {
+  flex: 0 0 auto;
+  margin-right: 8pt;
+  user-select: none;
+}
+
+.ProseMirror ul[data-type="taskList"] li > div {
+  flex: 1 1 auto;
+}
+
+/* Toolbar styles */
+.editor-toolbar {
+  background: #f8f9fa;
+  border-bottom: 1px solid #dadce0;
+  padding: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Menu bar styles */
+.editor-menubar {
+  background: white;
+  border-bottom: 1px solid #dadce0;
+  padding: 8px 16px;
+}
+
+/* Document stats bar */
+.document-stats {
+  background: #f8f9fa;
+  border-top: 1px solid #dadce0;
+  padding: 8px 16px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .editor-wrapper {
+    width: 100%;
+    margin: 0;
+    padding: 48px 24px;
+    box-shadow: none;
+  }
+  
+  .editor-container {
+    padding: 0;
+  }
+}
+
+/* Print styles */
+@media print {
+  .editor-toolbar,
+  .editor-menubar,
+  .document-stats {
+    display: none;
+  }
+  
+  .editor-container {
+    background: white;
+    padding: 0;
+  }
+  
+  .editor-wrapper {
+    box-shadow: none;
+    margin: 0;
+    padding: 72pt;
+  }
+}

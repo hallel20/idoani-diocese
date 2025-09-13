@@ -48,7 +48,7 @@ export default function AdminNavigation() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    className={`flex items-center px-4 py-2 rounded-lg text-xs font-medium transition-all duration-200 ${
                       isActive
                         ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-500/25"
                         : "text-slate-600 hover:text-blue-600 hover:bg-blue-50/80"

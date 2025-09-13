@@ -2,7 +2,6 @@ import { PrismaClient } from "@prisma/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { FileText, Calendar, User } from "lucide-react";
-import ReactMarkdown from "react-markdown";
 import { Metadata } from "next";
 
 const prisma = new PrismaClient();
@@ -95,46 +94,8 @@ export default async function BishopChargePage() {
               </CardHeader>
               
               <CardContent className="pt-8">
-                <div className="prose prose-lg prose-indigo max-w-none">
-                  <ReactMarkdown
-                    components={{
-                      h1: ({ children }) => (
-                        <h1 className="text-3xl font-serif font-bold text-gray-900 mb-6 mt-8 first:mt-0">
-                          {children}
-                        </h1>
-                      ),
-                      h2: ({ children }) => (
-                        <h2 className="text-2xl font-serif font-semibold text-gray-800 mb-4 mt-8">
-                          {children}
-                        </h2>
-                      ),
-                      h3: ({ children }) => (
-                        <h3 className="text-xl font-serif font-semibold text-gray-800 mb-3 mt-6">
-                          {children}
-                        </h3>
-                      ),
-                      p: ({ children }) => (
-                        <p className="text-gray-700 leading-relaxed mb-4 text-lg">
-                          {children}
-                        </p>
-                      ),
-                      blockquote: ({ children }) => (
-                        <blockquote className="border-l-4 border-indigo-200 pl-6 py-2 my-6 bg-indigo-50 italic text-gray-700">
-                          {children}
-                        </blockquote>
-                      ),
-                      strong: ({ children }) => (
-                        <strong className="font-semibold text-gray-900">
-                          {children}
-                        </strong>
-                      ),
-                      em: ({ children }) => (
-                        <em className="italic text-gray-800">{children}</em>
-                      ),
-                    }}
-                  >
-                    {charge.content}
-                  </ReactMarkdown>
+                <div className="prose lg:prose-xl">
+                  <div dangerouslySetInnerHTML={{ __html: charge.content }} />
                 </div>
                 
                 <div className="mt-12 pt-8 border-t border-gray-100">

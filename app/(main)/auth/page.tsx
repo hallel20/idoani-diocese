@@ -134,7 +134,7 @@ export default function AuthPage() {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center mb-4">
-              <Image src="/idoani-logo.png" alt="Idoani Diocese Logo" width={50} height={50} />
+              <Image src="/logo.png" alt="Idoani Diocese Logo" width={50} height={50} />
               <span className="font-serif font-bold text-2xl text-anglican-purple-700">Idoani Diocese</span>
             </div>
             <h1 className="text-2xl font-semibold mb-2">Admin Access</h1>

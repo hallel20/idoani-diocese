@@ -181,14 +181,21 @@ export default function BishopChargePage() {
               <span>View Public Page</span>
             </Button>
           </Link>
+          <Link href="/admin/bishops-charge/create">
+            <Button className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white shadow-lg">
+              <Plus className="w-4 h-4 mr-2" />
+              New Charge
+            </Button>
+          </Link>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button
                 onClick={openCreateDialog}
-                className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white shadow-lg"
+                variant="outline"
+                className="text-gray-600"
               >
-                <Plus className="w-4 h-4 mr-2" />
-                New Charge
+                <Edit className="w-4 h-4 mr-2" />
+                Quick Edit
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">

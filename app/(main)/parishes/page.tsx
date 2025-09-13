@@ -9,7 +9,7 @@ import { Metadata } from "next";
 const prisma = new PrismaClient();
 
 type ParishWithArchdeaconry = Parish & {
-  archdeaconry?: Archdeaconry;
+  archdeaconry?: Archdeaconry | null;
 };
 
 async function getParishes(): Promise<ParishWithArchdeaconry[]> {

@@ -1,10 +1,12 @@
 import { Metadata } from "next";
-import Navigation from "@/components/navigation";
+import { PrismaClient } from "@prisma/client";
 import HeroSection from "@/components/hero-section";
 import DirectorySection from "@/components/directory-section";
 import EventsSection from "@/components/events-section";
 import ContactSection from "@/components/contact-section";
-import Footer from "@/components/footer";
+import BishopChargeSection from "@/components/bishop-charge-section";
+
+const prisma = new PrismaClient();
 
 // SEO Metadata
 export const metadata: Metadata = {
@@ -123,7 +125,36 @@ const jsonLd = {
   }
 };
 
-export default function HomePage() {
+async function getHomePageData() {
+  try {
+    const [parishes, events, bishopCharge] = await Promise.all([
+      prisma.parish.findMany({
+        include: { archdeaconry: true },
+        orderBy: { createdAt: "desc" },
+        take: 4, // Limit to 4 parishes for homepage
+      }),
+      prisma.event.findMany({
+        where: {
+          date: { gte: new Date() }
+        },
+        orderBy: { date: "asc" },
+        take: 4, // Limit to 4 upcoming events for homepage
+      }),
+      prisma.bishopCharge.findFirst({
+        where: { isActive: true },
+        orderBy: { createdAt: "desc" },
+      }),
+    ]);
+
+    return { parishes, events, bishopCharge };
+  } catch (error) {
+    console.error("Error fetching homepage data:", error);
+    return { parishes: [], events: [], bishopCharge: null };
+  }
+}
+
+export default async function HomePage() {
+  const { parishes, events, bishopCharge } = await getHomePageData();
   return (
     <>
       {/* JSON-LD Structured Data */}
@@ -135,6 +166,9 @@ export default function HomePage() {
       <div className="min-h-screen bg-gray-50">
         
         <HeroSection />
+        
+        {/* Bishop's Charge Section */}
+        {bishopCharge && <BishopChargeSection charge={bishopCharge} />}
         
         {/* Mission & Vision Section - SEO Enhanced */}
         <section className="py-20 bg-white" id="mission-vision">
@@ -251,10 +285,9 @@ export default function HomePage() {
           </div>
         </section>
         
-        <DirectorySection />
-        <EventsSection />
+        <DirectorySection parishes={parishes} />
+        <EventsSection events={events} />
         <ContactSection />
-        <Footer />
       </div>
     </>
   );

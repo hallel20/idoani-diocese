@@ -1,21 +1,44 @@
-"use client";
-
-import { useQuery } from "@tanstack/react-query";
+import { PrismaClient } from "@prisma/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { type Archdeaconry } from "@prisma/client";
-import { Building2, MapPin, Users } from "lucide-react";
+import { type Archdeaconry, type Parish } from "@prisma/client";
+import { Building2, Users } from "lucide-react";
 import Link from "next/link";
+import { Metadata } from "next";
 
-export default function ArchdeaconriesPage() {
-  const { data: archdeaconries = [], isLoading } = useQuery<Archdeaconry[]>({
-    queryKey: ["/api/archdeaconries"],
-  });
+const prisma = new PrismaClient();
+
+async function getArchdeaconries() {
+  try {
+    const archdeaconries = await prisma.archdeaconry.findMany({
+      include: {
+        parishes: true,
+      },
+      orderBy: { name: "asc" },
+    });
+    return archdeaconries;
+  } catch (error) {
+    console.error("Error fetching archdeaconries:", error);
+    return [];
+  }
+}
+
+export const metadata: Metadata = {
+  title: "Archdeaconries - Diocese of Idoani",
+  description: "Explore the archdeaconries within the Anglican Diocese of Idoani and discover the parishes under their pastoral care.",
+  keywords: ["archdeaconries", "anglican", "idoani", "diocese", "parishes", "pastoral care"],
+  openGraph: {
+    title: "Archdeaconries - Diocese of Idoani",
+    description: "Explore the archdeaconries within the Anglican Diocese of Idoani",
+    type: "website",
+  },
+};
+
+export default async function ArchdeaconriesPage() {
+  const archdeaconries = await getArchdeaconries();
 
   return (
     <div className="min-h-screen bg-gray-50">
-      
-      
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-orange-600 to-orange-800 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,22 +54,7 @@ export default function ArchdeaconriesPage() {
       {/* Archdeaconries Grid */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {isLoading ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[...Array(6)].map((_, i) => (
-                <Card key={i} className="animate-pulse">
-                  <CardHeader>
-                    <div className="h-6 bg-gray-200 rounded mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded w-2/3"></div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : archdeaconries.length === 0 ? (
+          {archdeaconries.length === 0 ? (
             <div className="text-center py-12">
               <Building2 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-gray-600 mb-2">
@@ -89,7 +97,7 @@ export default function ArchdeaconriesPage() {
                       <div className="flex items-center justify-between text-sm text-gray-500">
                         <div className="flex items-center">
                           <Users className="w-4 h-4 mr-1" />
-                          <span>View Parishes</span>
+                          <span>{archdeaconry.parishes.length} Parishes</span>
                         </div>
                         <span className="text-orange-600 group-hover:text-orange-700 font-medium">
                           Learn more →

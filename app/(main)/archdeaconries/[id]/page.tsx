@@ -1,58 +1,66 @@
-"use client";
-
-import { useQuery } from "@tanstack/react-query";
+import { PrismaClient } from "@prisma/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { type Parish, type Archdeaconry } from "@prisma/client";
 import { Building2, MapPin, Phone, Mail, ArrowLeft, Users } from "lucide-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
-export default function ArchdeaconryDetailPage() {
-  const params = useParams();
-  const archdeaconryId = params.id as string;
+const prisma = new PrismaClient();
 
-  const { data: archdeaconries = [] } = useQuery<Archdeaconry[]>({
-    queryKey: ["/api/archdeaconries"],
-  });
+type ArchdeaconryWithParishes = Archdeaconry & {
+  parishes: Parish[];
+};
 
-  const { data: parishes = [] } = useQuery<Parish[]>({
-    queryKey: ["/api/parishes"],
-  });
+async function getArchdeaconry(id: string): Promise<ArchdeaconryWithParishes | null> {
+  try {
+    const archdeaconry = await prisma.archdeaconry.findUnique({
+      where: { id },
+      include: {
+        parishes: {
+          orderBy: { name: "asc" },
+        },
+      },
+    });
+    return archdeaconry;
+  } catch (error) {
+    console.error("Error fetching archdeaconry:", error);
+    return null;
+  }
+}
 
-  const archdeaconry = archdeaconries.find(a => a.id === archdeaconryId);
-  const archdeaconryParishes = parishes.filter(p => p.archdeaconryId === archdeaconryId);
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const archdeaconry = await getArchdeaconry(params.id);
+  
+  if (!archdeaconry) {
+    return {
+      title: "Archdeaconry Not Found - Diocese of Idoani",
+    };
+  }
+
+  return {
+    title: `${archdeaconry.name} - Diocese of Idoani`,
+    description: `Explore ${archdeaconry.name} and its ${archdeaconry.parishes.length} parishes within the Anglican Diocese of Idoani.`,
+    keywords: [archdeaconry.name, "archdeaconry", "anglican", "idoani", "diocese", "parishes"],
+    openGraph: {
+      title: archdeaconry.name,
+      description: `Archdeaconry with ${archdeaconry.parishes.length} parishes in the Diocese of Idoani`,
+      type: "website",
+    },
+  };
+}
+
+export default async function ArchdeaconryDetailPage({ params }: { params: { id: string } }) {
+  const archdeaconry = await getArchdeaconry(params.id);
 
   if (!archdeaconry) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        
-        <div className="flex items-center justify-center min-h-[60vh]">
-          <div className="text-center">
-            <Building2 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-semibold text-gray-600 mb-2">
-              Archdeaconry Not Found
-            </h2>
-            <p className="text-gray-500 mb-6">
-              The archdeaconry you're looking for doesn't exist.
-            </p>
-            <Link href="/archdeaconries">
-              <Button>
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Archdeaconries
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      
-      
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-orange-600 to-orange-800 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -95,11 +103,11 @@ export default function ArchdeaconryDetailPage() {
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <Users className="w-5 h-5 mr-2" />
-                    Parishes ({archdeaconryParishes.length})
+                    Parishes ({archdeaconry.parishes.length})
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  {archdeaconryParishes.length === 0 ? (
+                  {archdeaconry.parishes.length === 0 ? (
                     <div className="text-center py-8">
                       <Building2 className="w-12 h-12 text-gray-400 mx-auto mb-3" />
                       <p className="text-gray-500">
@@ -108,7 +116,7 @@ export default function ArchdeaconryDetailPage() {
                     </div>
                   ) : (
                     <div className="grid gap-4">
-                      {archdeaconryParishes.map((parish) => (
+                      {archdeaconry.parishes.map((parish) => (
                         <Link
                           key={parish.id}
                           href={`/parish/${parish.id}`}
@@ -173,13 +181,12 @@ export default function ArchdeaconryDetailPage() {
                       Archdeaconry
                     </Badge>
                   </div>
-                  
 
                   <div>
                     <h4 className="font-medium text-gray-900 mb-1">Parishes</h4>
                     <div className="flex items-center text-gray-600">
                       <Users className="w-4 h-4 mr-2" />
-                      {archdeaconryParishes.length} {archdeaconryParishes.length === 1 ? 'Parish' : 'Parishes'}
+                      {archdeaconry.parishes.length} {archdeaconry.parishes.length === 1 ? 'Parish' : 'Parishes'}
                     </div>
                   </div>
                 </CardContent>
@@ -197,10 +204,10 @@ export default function ArchdeaconryDetailPage() {
                       All Archdeaconries
                     </Button>
                   </Link>
-                  <Link href="/">
+                  <Link href="/parishes">
                     <Button variant="outline" className="w-full justify-start">
                       <Users className="w-4 h-4 mr-2" />
-                      Parish Directory
+                      All Parishes
                     </Button>
                   </Link>
                 </CardContent>

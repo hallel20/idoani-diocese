@@ -1,18 +1,40 @@
-"use client";
-
-import { useQuery } from "@tanstack/react-query";
+import { PrismaClient } from "@prisma/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { type Event } from "@prisma/client";
 import { Calendar, Clock, MapPin, Users } from "lucide-react";
 import { format, isAfter, isBefore, startOfDay } from "date-fns";
 import Image from "next/image";
+import { Metadata } from "next";
 
-export default function EventsPage() {
-  const { data: events = [], isLoading } = useQuery<Event[]>({
-    queryKey: ["/api/events"],
-  });
+const prisma = new PrismaClient();
 
+async function getEvents() {
+  try {
+    const events = await prisma.event.findMany({
+      orderBy: { date: "asc" },
+    });
+    return events;
+  } catch (error) {
+    console.error("Error fetching events:", error);
+    return [];
+  }
+}
+
+export const metadata: Metadata = {
+  title: "Events & Activities - Diocese of Idoani",
+  description: "Join us for worship, fellowship, and community events at the Anglican Diocese of Idoani. View upcoming and past events.",
+  keywords: ["events", "activities", "worship", "fellowship", "anglican", "idoani", "diocese", "community"],
+  openGraph: {
+    title: "Events & Activities - Diocese of Idoani",
+    description: "Join us for worship, fellowship, and community events",
+    type: "website",
+  },
+};
+
+export default async function EventsPage() {
+  const events = await getEvents();
+  
   const now = new Date();
   const today = startOfDay(now);
 
@@ -28,7 +50,7 @@ export default function EventsPage() {
   const EventCard = ({ event }: { event: Event }) => (
     <Card className="h-full transition-all duration-200 hover:shadow-lg hover:scale-[1.02]">
       <CardHeader className="pb-3">
-        {/* {event.imageUrl && (
+        {event.imageUrl && (
           <div className="relative w-full h-48 mb-4 rounded-lg overflow-hidden">
             <Image
               src={event.imageUrl}
@@ -37,7 +59,7 @@ export default function EventsPage() {
               className="object-cover"
             />
           </div>
-        )} */}
+        )}
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <CardTitle className="text-lg font-serif mb-2">
@@ -81,11 +103,11 @@ export default function EventsPage() {
             <Users className="w-4 h-4 mr-1" />
             <span>Diocese Event</span>
           </div>
-          {/* {event.registrationRequired && (
+          {event.registrationRequired && (
             <Badge variant="outline" className="text-xs">
               Registration Required
             </Badge>
-          )} */}
+          )}
         </div>
       </CardContent>
     </Card>
@@ -93,8 +115,6 @@ export default function EventsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      
-      
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-purple-600 to-purple-800 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -110,24 +130,7 @@ export default function EventsPage() {
       {/* Events Content */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {isLoading ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[...Array(6)].map((_, i) => (
-                <Card key={i} className="animate-pulse">
-                  <CardHeader>
-                    <div className="h-48 bg-gray-200 rounded mb-4"></div>
-                    <div className="h-6 bg-gray-200 rounded mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded w-2/3 mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : events.length === 0 ? (
+          {events.length === 0 ? (
             <div className="text-center py-12">
               <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-gray-600 mb-2">

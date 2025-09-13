@@ -1,17 +1,16 @@
-"use client";
-import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Clock, MapPin, Calendar, Star, ArrowRight, Users } from "lucide-react";
 import { Event } from "@prisma/client";
 import { format } from "date-fns";
+import Link from "next/link";
 
-export default function EventsSection() {
-  const { data: events = [], isLoading } = useQuery<Event[]>({
-    queryKey: ["/api/events"],
-  });
+interface EventsSectionProps {
+  events: Event[];
+}
 
+export default function EventsSection({ events }: EventsSectionProps) {
   const featuredEvent = events.find(event => event.isFeatured);
   const regularEvents = events.filter(event => !event.isFeatured);
 
@@ -62,20 +61,7 @@ export default function EventsSection() {
           </p>
         </div>
 
-        {isLoading ? (
-          <div className="space-y-8">
-            {/* Featured Event Skeleton */}
-            <div className="bg-gradient-to-r from-gray-100 to-gray-200 rounded-3xl h-80 animate-pulse shadow-lg" />
-            
-            {/* Regular Events Skeleton */}
-            <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-8">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="bg-gradient-to-r from-gray-100 to-gray-200 rounded-2xl h-64 animate-pulse shadow-md" />
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-12">
+        <div className="space-y-12">
             {/* Featured Event */}
             {featuredEvent && (
               <div className="relative overflow-hidden rounded-3xl shadow-2xl">
@@ -226,18 +212,19 @@ export default function EventsSection() {
               </div>
             )}
           </div>
-        )}
 
         {/* View All Events Button */}
         {events.length > 0 && (
           <div className="text-center mt-16">
-            <Button 
-              variant="outline" 
-              className="text-anglican-purple-600 border-anglican-purple-300 hover:bg-anglican-purple-50 hover:border-anglican-purple-400 px-8 py-3 text-base font-medium shadow-md hover:shadow-lg transition-all duration-200"
-            >
-              View All Events
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+            <Link href="/events">
+              <Button 
+                variant="outline" 
+                className="text-anglican-purple-600 border-anglican-purple-300 hover:bg-anglican-purple-50 hover:border-anglican-purple-400 px-8 py-3 text-base font-medium shadow-md hover:shadow-lg transition-all duration-200"
+              >
+                View All Events
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
           </div>
         )}
       </div>

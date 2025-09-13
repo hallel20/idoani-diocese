@@ -37,25 +37,13 @@ export default function Navigation() {
   };
 
   const navItems = [
-    { href: "/", label: "Home", section: "home", icon: Home },
-    {
-      href: "/#directory",
-      label: "Directory",
-      section: "directory",
-      icon: Users,
-    },
-    { href: "/#events", label: "Events", section: "events", icon: Calendar },
-    { href: "/#contact", label: "Contact", section: "contact", icon: Mail },
+    { href: "/", label: "Home", icon: Home },
+    { href: "/parishes", label: "Parishes", icon: Users },
+    { href: "/priests", label: "Priests", icon: Users },
+    { href: "/archdeaconries", label: "Archdeaconries", icon: Users },
+    { href: "/events", label: "Events", icon: Calendar },
+    { href: "/bishops-charge", label: "Bishop's Charge", icon: Mail },
   ];
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-    setActiveSection(sectionId);
-    setIsMobileMenuOpen(false);
-  };
 
   return (
     <>
@@ -95,27 +83,29 @@ export default function Navigation() {
               <div className="flex items-center space-x-1">
                 {navItems.map((item) => {
                   const Icon = item.icon;
+                  const isActive = pathname === item.href;
                   return (
-                    <button
-                      key={item.section}
-                      onClick={() => scrollToSection(item.section)}
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
                       className={`group relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 flex items-center space-x-2 ${
-                        activeSection === item.section
+                        isActive
                           ? "text-purple-700 bg-purple-50"
                           : "text-gray-700 hover:text-purple-700 hover:bg-purple-50"
                       }`}
-                      data-testid={`nav-${item.section}`}
+                      data-testid={`nav-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
                     >
                       <Icon className="w-4 h-4" />
                       <span>{item.label}</span>
                       <div
                         className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-yellow-500 transition-all duration-300 ${
-                          activeSection === item.section
+                          isActive
                             ? "w-full"
                             : "group-hover:w-full"
                         }`}
                       />
-                    </button>
+                    </Link>
                   );
                 })}
 
@@ -183,16 +173,17 @@ export default function Navigation() {
               {navItems.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <button
-                    key={item.section}
-                    onClick={() => scrollToSection(item.section)}
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
                     className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left font-medium text-gray-700 hover:text-purple-700 hover:bg-purple-50 transition-all duration-300 group"
                   >
                     <Icon className="w-5 h-5 group-hover:text-purple-600" />
                     <span>{item.label}</span>
                     <div className="flex-1" />
                     <ChevronDown className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
-                  </button>
+                  </Link>
                 );
               })}
 

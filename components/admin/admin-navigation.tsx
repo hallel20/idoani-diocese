@@ -11,7 +11,8 @@ import {
   Calendar, 
   MapPin, 
   LogOut,
-  Home
+  Home,
+  FileText
 } from "lucide-react";
 
 const navigation = [
@@ -20,6 +21,7 @@ const navigation = [
   { name: "Priests", href: "/admin/priests", icon: Users },
   { name: "Events", href: "/admin/events", icon: Calendar },
   { name: "Archdeaconries", href: "/admin/archdeaconries", icon: MapPin },
+  { name: "Bishop's Charge", href: "/admin/bishops-charge", icon: FileText },
 ];
 
 export default function AdminNavigation() {

@@ -22,9 +22,15 @@ export default function BishopChargeSection({ charge }: BishopChargeSectionProps
     });
   };
 
-  const excerpt = charge.content.length > 200 
-    ? charge.content.substring(0, 200) + "..." 
-    : charge.content;
+  // Create excerpt by stripping HTML tags and limiting length
+  const stripHtml = (html: string) => {
+    return html.replace(/<[^>]*>/g, '');
+  };
+  
+  const plainTextContent = stripHtml(charge.content);
+  const excerpt = plainTextContent.length > 200 
+    ? plainTextContent.substring(0, 200) + "..." 
+    : plainTextContent;
 
   return (
     <section className="py-16 bg-gradient-to-br from-indigo-50 to-purple-50">
@@ -66,7 +72,7 @@ export default function BishopChargeSection({ charge }: BishopChargeSectionProps
           <CardContent>
             <div className="prose prose-lg max-w-none mb-6">
               <p className="text-gray-700 leading-relaxed text-lg">
-                {excerpt.replace(/[#*_`]/g, '')} {/* Remove basic markdown formatting for excerpt */}
+                {excerpt}
               </p>
             </div>
             

@@ -12,3 +12,5 @@ vite.config.ts.*
 .env
 
 .next
+
+next-env.d.ts

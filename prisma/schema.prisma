@@ -77,15 +77,17 @@ model Priest {
 }
 
 model Event {
-  id          String   @id @default(uuid()) @db.VarChar(36)
-  title       String   @db.VarChar(255)
-  description String?  @db.Text
-  date        DateTime
-  time        String?  @db.VarChar(20)
-  location    String?  @db.VarChar(255)
-  category    String   @default("general") @db.VarChar(100)
-  isFeatured  Boolean  @default(false) @map("is_featured")
-  createdAt   DateTime @default(now()) @map("created_at")
+  id                   String   @id @default(uuid()) @db.VarChar(36)
+  title                String   @db.VarChar(255)
+  description          String?  @db.Text
+  date                 DateTime
+  time                 String?  @db.VarChar(20)
+  location             String?  @db.VarChar(255)
+  category             String   @default("general") @db.VarChar(100)
+  isFeatured           Boolean  @default(false) @map("is_featured")
+  registrationRequired Boolean  @default(false) @map("registration_required")
+  imageUrl             String?  @map("image_url") @db.Text
+  createdAt            DateTime @default(now()) @map("created_at")
 
   @@map("events")
 }

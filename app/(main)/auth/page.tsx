@@ -142,9 +142,9 @@ export default function AuthPage() {
           </div>
 
           <Tabs defaultValue="login" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-1">
               <TabsTrigger value="login">Login</TabsTrigger>
-              <TabsTrigger value="register">Register</TabsTrigger>
+              {/* <TabsTrigger value="register">Register</TabsTrigger> */}
             </TabsList>
             
             <TabsContent value="login">
@@ -198,6 +198,7 @@ export default function AuthPage() {
               </Card>
             </TabsContent>
             
+            {/* Registration form commented out for security
             <TabsContent value="register">
               <Card>
                 <CardHeader>
@@ -266,6 +267,7 @@ export default function AuthPage() {
                 </CardContent>
               </Card>
             </TabsContent>
+            */}
           </Tabs>
         </div>
       </div>

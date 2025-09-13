@@ -3,10 +3,11 @@ import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MapPin, Phone, Clock, Mail, ArrowLeft } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { MapPin, Phone, Clock, Mail, ArrowLeft, Building2 } from "lucide-react";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
-import { Parish } from "@prisma/client";
+import { Parish, Archdeaconry } from "@prisma/client";
 import { Church } from "lucide-react";
 import Link from "next/link";
 
@@ -19,10 +20,18 @@ export default function ParishDetail() {
     enabled: !!parishId,
   });
 
+  const { data: archdeaconries = [] } = useQuery<Archdeaconry[]>({
+    queryKey: ["/api/archdeaconries"],
+  });
+
+  const archdeaconry = parish?.archdeaconryId 
+    ? archdeaconries.find(a => a.id === parish.archdeaconryId)
+    : null;
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Navigation />
+        
         <div className="flex items-center justify-center py-20">
           <div className="text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-anglican-purple-500 mx-auto mb-4"></div>
@@ -37,7 +46,7 @@ export default function ParishDetail() {
   if (error || !parish) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Navigation />
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 mb-4">Parish Not Found</h1>
@@ -57,7 +66,7 @@ export default function ParishDetail() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
+      
       
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-anglican-purple-600 to-anglican-purple-800 text-white py-16">
@@ -125,6 +134,21 @@ export default function ParishDetail() {
                       <div>
                         <h4 className="font-semibold">Service Times</h4>
                         <p className="text-gray-600">{parish.serviceTimes}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {archdeaconry && (
+                    <div className="flex items-start">
+                      <Building2 className="w-5 h-5 text-anglican-purple-500 mt-1 mr-3" />
+                      <div>
+                        <h4 className="font-semibold">Archdeaconry</h4>
+                        <Link 
+                          href={`/archdeaconries/${archdeaconry.id}`}
+                          className="text-anglican-purple-600 hover:text-anglican-purple-700 hover:underline"
+                        >
+                          {archdeaconry.name}
+                        </Link>
                       </div>
                     </div>
                   )}

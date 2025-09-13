@@ -15,6 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { type Priest, type Parish } from "@prisma/client";
 import { insertPriestSchema } from "@/lib/validation";
+import { ImageUpload } from "@/components/image-uploader";
 import { Plus, Edit, Trash2, User, Phone, Mail, MapPin } from "lucide-react";
 
 export default function PriestManagement() {
@@ -250,7 +251,8 @@ export default function PriestManagement() {
               </div>
 
               <div>
-                <Label htmlFor="imageUrl">Image URL</Label>
+                <Label htmlFor="imageUrl">Image</Label>
+                <ImageUpload imageUrl={form.watch("imageUrl")} setImageUrl={(url: string | null) => form.setValue("imageUrl", url)} />
                 <Input
                   id="imageUrl"
                   {...form.register("imageUrl")}

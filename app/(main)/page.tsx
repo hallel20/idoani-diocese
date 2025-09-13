@@ -133,7 +133,7 @@ export default function HomePage() {
       />
       
       <div className="min-h-screen bg-gray-50">
-        <Navigation />
+        
         <HeroSection />
         
         {/* Mission & Vision Section - SEO Enhanced */}

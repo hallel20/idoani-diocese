@@ -79,7 +79,7 @@ export default function Navigation() {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:block">
+            <div className="hidden lg:block text-sm">
               <div className="flex items-center space-x-1">
                 {navItems.map((item) => {
                   const Icon = item.icon;
@@ -89,7 +89,7 @@ export default function Navigation() {
                       key={item.href}
                       href={item.href}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className={`group relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 flex items-center space-x-2 ${
+                      className={`group relative px-4 py-2 rounded-xl text-xs font-medium transition-all duration-300 flex items-center space-x-2 ${
                         isActive
                           ? "text-purple-700 bg-purple-50"
                           : "text-gray-700 hover:text-purple-700 hover:bg-purple-50"

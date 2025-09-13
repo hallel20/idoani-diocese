@@ -12,7 +12,7 @@ import { notFound } from "next/navigation";
 const prisma = new PrismaClient();
 
 type ParishWithArchdeaconry = Parish & {
-  archdeaconry?: Archdeaconry;
+  archdeaconry?: Archdeaconry | null;
 };
 
 async function getParish(id: string): Promise<ParishWithArchdeaconry | null> {
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     openGraph: {
       title: parish.name,
       description: `Anglican parish located at ${parish.address}`,
-      type: "place",
+      type: "website",
       images: parish.imageUrl ? [parish.imageUrl] : undefined,
     },
   };

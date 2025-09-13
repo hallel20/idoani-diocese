@@ -3,21 +3,23 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building2, Users, Calendar, MapPin, BarChart3, TrendingUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import type { Parish, Priest, Event, Archdeaconry } from "@prisma/client";
+import Link from "next/link";
 
 export default function AdminDashboard() {
-  const { data: parishes = [] } = useQuery({
+  const { data: parishes = [] } = useQuery<Parish[]>({
     queryKey: ["/api/parishes"],
   });
 
-  const { data: priests = [] } = useQuery({
+  const { data: priests = [] } = useQuery<Priest[]>({
     queryKey: ["/api/priests"],
   });
 
-  const { data: events = [] } = useQuery({
+  const { data: events = [] } = useQuery<Event[]>({
     queryKey: ["/api/events"],
   });
 
-  const { data: archdeaconries = [] } = useQuery({
+  const { data: archdeaconries = [] } = useQuery<Archdeaconry[]>({
     queryKey: ["/api/archdeaconries"],
   });
 
@@ -96,41 +98,41 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <a
+              <Link
                 href="/admin/parishes"
                 className="p-4 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 hover:from-blue-100 hover:to-indigo-100 transition-all duration-200 group"
               >
                 <Building2 className="w-6 h-6 text-blue-600 mb-2 group-hover:scale-110 transition-transform" />
                 <h3 className="font-semibold text-slate-700">Manage Parishes</h3>
                 <p className="text-sm text-slate-500">Add, edit, or view parishes</p>
-              </a>
+              </Link>
               
-              <a
+              <Link
                 href="/admin/priests"
                 className="p-4 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 border border-green-100 hover:from-green-100 hover:to-emerald-100 transition-all duration-200 group"
               >
                 <Users className="w-6 h-6 text-green-600 mb-2 group-hover:scale-110 transition-transform" />
                 <h3 className="font-semibold text-slate-700">Manage Priests</h3>
                 <p className="text-sm text-slate-500">Add, edit, or view priests</p>
-              </a>
+              </Link>
               
-              <a
+              <Link
                 href="/admin/events"
                 className="p-4 rounded-lg bg-gradient-to-r from-purple-50 to-violet-50 border border-purple-100 hover:from-purple-100 hover:to-violet-100 transition-all duration-200 group"
               >
                 <Calendar className="w-6 h-6 text-purple-600 mb-2 group-hover:scale-110 transition-transform" />
                 <h3 className="font-semibold text-slate-700">Manage Events</h3>
                 <p className="text-sm text-slate-500">Schedule and manage events</p>
-              </a>
+              </Link>
               
-              <a
+              <Link
                 href="/admin/archdeaconries"
                 className="p-4 rounded-lg bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-100 hover:from-orange-100 hover:to-amber-100 transition-all duration-200 group"
               >
                 <MapPin className="w-6 h-6 text-orange-600 mb-2 group-hover:scale-110 transition-transform" />
                 <h3 className="font-semibold text-slate-700">Manage Archdeaconries</h3>
                 <p className="text-sm text-slate-500">Organize archdeaconries</p>
-              </a>
+              </Link>
             </div>
           </CardContent>
         </Card>

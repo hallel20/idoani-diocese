@@ -10,10 +10,14 @@ const compat = new FlatCompat({
 });
 
 const config = [
+  {
+    ignores: [".next/**/*", "node_modules/**/*"],
+  },
   ...compat.extends("next/core-web-vitals"),
   {
     rules: {
       "react/no-unescaped-entities": "off",
+      "@next/next/no-img-element": "off",
     },
   },
 ];

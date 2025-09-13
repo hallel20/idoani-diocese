@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import Image from "next/image";
 
 const loginSchema = z.object({
   username: z.string().min(1, "Username is required"),
@@ -133,10 +134,8 @@ export default function AuthPage() {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center mb-4">
-              <svg className="w-8 h-8 text-anglican-purple-500 mr-3" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-              </svg>
-              <span className="font-serif font-bold text-2xl text-anglican-purple-700">Anglican Diocese</span>
+              <Image src="/idoani-logo.png" alt="Idoani Diocese Logo" width={50} height={50} />
+              <span className="font-serif font-bold text-2xl text-anglican-purple-700">Idoani Diocese</span>
             </div>
             <h1 className="text-2xl font-semibold mb-2">Admin Access</h1>
             <p className="text-gray-600">Sign in to manage diocesan content</p>
@@ -276,7 +275,7 @@ export default function AuthPage() {
         <div className="absolute inset-0 bg-black bg-opacity-40" />
         <div className="relative text-center p-8">
           <h2 className="font-serif text-4xl font-bold mb-6">
-            Welcome to Our <span className="text-anglican-gold">Anglican Diocese</span>
+            Welcome to <span className="text-anglican-gold">Idoani Anglican Diocese</span>
           </h2>
           <p className="text-xl mb-8 text-gray-100 leading-relaxed max-w-2xl">
             A comprehensive platform for managing our diocesan community, connecting parishes, and serving our faithful.

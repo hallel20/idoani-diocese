@@ -49,6 +49,8 @@ model Parish {
   archdeaconryId String?  @map("archdeaconry_id") @db.VarChar(36)
   imageUrl       String?  @map("image_url") @db.Text
   createdAt      DateTime @default(now()) @map("created_at")
+  memberCount    Int?     @map("member_count")
+  foundedYear    Int?     @map("founded_year")
 
   // Relations
   archdeaconry Archdeaconry? @relation(fields: [archdeaconryId], references: [id])

@@ -196,8 +196,8 @@ export default function ContactSection() {
                   <div>
                     <p className="text-gray-700 font-medium">Address</p>
                     <p className="text-gray-600">
-                      123 Cathedral Square<br />
-                      City Center, State 12345
+                      Cathedral Church of the Holy Trinity<br />
+                      Idoani, Ondo State, 341116
                     </p>
                   </div>
                 </div>
@@ -206,7 +206,7 @@ export default function ContactSection() {
                   <Phone className="text-anglican-purple-500 mt-1 mr-4 w-5 h-5" />
                   <div>
                     <p className="text-gray-700 font-medium">Phone</p>
-                    <p className="text-gray-600">(555) 000-1234</p>
+                    <p className="text-gray-600">+234 (703) 210 5433</p>
                   </div>
                 </div>
                 
@@ -214,7 +214,7 @@ export default function ContactSection() {
                   <Mail className="text-anglican-purple-500 mt-1 mr-4 w-5 h-5" />
                   <div>
                     <p className="text-gray-700 font-medium">Email</p>
-                    <p className="text-gray-600">info@anglicandioceseexample.org</p>
+                    <p className="text-gray-600">dioceseofidoani@gmail.com</p>
                   </div>
                 </div>
                 
@@ -232,7 +232,7 @@ export default function ContactSection() {
             </Card>
 
             {/* Emergency Contact */}
-            <div className="bg-anglican-purple-50 border-l-4 border-anglican-purple-500 rounded-r-2xl p-6">
+            {/* <div className="bg-anglican-purple-50 border-l-4 border-anglican-purple-500 rounded-r-2xl p-6">
               <h4 className="font-semibold text-anglican-purple-700 mb-2">
                 Emergency Pastoral Care
               </h4>
@@ -242,7 +242,7 @@ export default function ContactSection() {
               <p className="text-anglican-purple-700 font-semibold">
                 (555) 000-HELP (4357)
               </p>
-            </div>
+            </div> */}
 
             {/* Social Media Links */}
             <Card className="shadow-xl">
@@ -254,7 +254,8 @@ export default function ContactSection() {
               <CardContent>
                 <div className="grid grid-cols-2 gap-4">
                   <a
-                    href="#"
+                    href="https://www.facebook.com/p/Idoani-Diocese-100064662195607/"
+                    target="_blank"
                     className="flex items-center justify-center p-3 border border-gray-200 rounded-lg hover:bg-anglican-purple-50 hover:border-anglican-purple-200 transition-colors"
                     data-testid="link-contact-facebook"
                   >
